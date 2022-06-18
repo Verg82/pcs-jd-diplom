@@ -44,6 +44,8 @@ public class JsonParse {
     }
 
     public List<Object> jsonToObjectList(String jsonData, Object myObject) {
+        //Use: List<MyClass> list = new JsonParse().jsonToObjectList(data,
+        //new MyClass()).stream().map(element -> (MyClass) element).collect(Collectors.toList());
         List<Object> result = new ArrayList<>();
         try {
             JSONArray jsonArray = (JSONArray) new JSONParser().parse(jsonData);
@@ -71,9 +73,9 @@ public class JsonParse {
     }
 
     public String jsonPrettyPrint(String json) {
-            Gson gson = new GsonBuilder().setPrettyPrinting().create();
-            JsonElement jsonElement = JsonParser.parseString(json);
-            return gson.toJson(jsonElement);
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        JsonElement jsonElement = JsonParser.parseString(json);
+        return gson.toJson(jsonElement);
     }
 
 }

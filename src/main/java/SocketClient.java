@@ -32,7 +32,5 @@ public class SocketClient extends SocketHandle {
         String data = read(sockRead);
         if (!data.equals("null")) System.out.println(new JsonParse().jsonPrettyPrint(data));
         else System.out.println("Ничего не найдено");
-        //List<PageEntry> list = new JsonParse().jsonToObjectList(data,
-        //        new PageEntry()).stream().map(element -> (PageEntry) element).collect(Collectors.toList());
     }
 }

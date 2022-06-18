@@ -13,7 +13,7 @@ public abstract class SocketHandle implements SocketHandleImpl {
         @Override
         public String toString() {
             return "Data{ " +
-                    "word = " + word  +
+                    "word = " + word +
                     " } ";
         }
     }
