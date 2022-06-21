@@ -40,12 +40,23 @@ public class SocketServer extends SocketHandle {
     @Override
     public void sockReadHandler(PrintWriter sockOut, BufferedReader sockRead) {
         String request = read(sockRead);
-        Data data = new GsonBuilder().create().fromJson(request, Data.class);
-        List<PageEntry> searchResult = searchEngine.search(data.word);
-        String json = null;
+        send(sockOut, processingSearchRequestToJson(request));
+    }
+
+    private String processingSearchRequestToJson(String request) {
+        List<PageEntry> searchResult;
+        String word;
+        String result = null;
+
+        if (new JsonParse().isJsonValid(request)) {
+            Data data = new GsonBuilder().create().fromJson(request, Data.class);
+            word = data.word;
+        } else word = request;
+
+        searchResult = searchEngine.search(word);
         if (searchResult != null) {
-            json = new JsonParse().listObjectToJson(searchResult.stream().map(element -> (Object) element).collect(Collectors.toList()));
+            result = new JsonParse().listObjectToJson(searchResult.stream().map(element -> (Object) element).collect(Collectors.toList()));
         }
-        send(sockOut, json);
+        return result;
     }
 }

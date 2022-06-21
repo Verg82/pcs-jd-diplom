@@ -19,7 +19,8 @@ public class SocketClient extends SocketHandle {
              PrintWriter sockOut = new PrintWriter(socket.getOutputStream(), true)) {
 
             if (socket.isConnected()) {
-                send(sockOut, new JsonParse().objectToJson(new Data(request)));
+                //send(sockOut, new JsonParse().objectToJson(new Data(request)));
+                send(sockOut, request);
                 sockReadHandler(sockOut, bufRead);
             }
         } catch (IOException ex) {
