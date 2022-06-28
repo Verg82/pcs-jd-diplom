@@ -39,8 +39,8 @@ public class BooleanSearchEngine implements SearchEngine {
                 }
                 doc.close();
             }
-            // Sort HashMap on indexing stage
-            if (!indexMap.isEmpty()) indexMap = sort(indexMap);
+            // Sort indexMap on indexing stage
+            indexMap = sort(indexMap);
         }
     }
 
@@ -56,10 +56,13 @@ public class BooleanSearchEngine implements SearchEngine {
 
     @Override
     public Map<String, List<PageEntry>> sort(Map<String, List<PageEntry>> sortableMap) {
-        Map<String, List<PageEntry>> sortedMap = new HashMap<>();
-        sortableMap.forEach((key, value) -> sortedMap.put(key, value.stream().sorted().collect(Collectors.toList())));
-        sortableMap.clear();
-        return sortedMap;
+        if (!sortableMap.isEmpty()) {
+            Map<String, List<PageEntry>> sortedMap = new HashMap<>();
+            sortableMap.forEach((key, value) -> sortedMap.put(key, value.stream().sorted().collect(Collectors.toList())));
+            sortableMap.clear();
+            return sortedMap;
+        }
+        return null;
     }
 
     private List<String> readDirectory(String dirName) {
