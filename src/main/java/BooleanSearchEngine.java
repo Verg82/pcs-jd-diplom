@@ -39,17 +39,27 @@ public class BooleanSearchEngine implements SearchEngine {
                 }
                 doc.close();
             }
+            // Sort HashMap on indexing stage
+            if (!indexMap.isEmpty()) indexMap = sort(indexMap);
         }
     }
 
     @Override
     public List<PageEntry> search(String word) {
         if (!indexMap.isEmpty()) {
-            if (indexMap.get(word.toLowerCase()) != null) {
-                return indexMap.get(word.toLowerCase()).stream().sorted().collect(Collectors.toList());
+            if (indexMap.containsKey(word.toLowerCase())) {
+                return indexMap.get(word.toLowerCase());
             }
         }
         return null;
+    }
+
+    @Override
+    public Map<String, List<PageEntry>> sort(Map<String, List<PageEntry>> sortableMap) {
+        Map<String, List<PageEntry>> sortedMap = new HashMap<>();
+        sortableMap.forEach((key, value) -> sortedMap.put(key, value.stream().sorted().collect(Collectors.toList())));
+        sortableMap.clear();
+        return sortedMap;
     }
 
     private List<String> readDirectory(String dirName) {
