@@ -40,7 +40,7 @@ public class BooleanSearchEngine implements SearchEngine {
                 doc.close();
             }
             // Sort indexMap on indexing stage
-            indexMap = sort(indexMap);
+            sort();
         }
     }
 
@@ -54,15 +54,13 @@ public class BooleanSearchEngine implements SearchEngine {
         return null;
     }
 
-    @Override
-    public Map<String, List<PageEntry>> sort(Map<String, List<PageEntry>> sortableMap) {
-        if (!sortableMap.isEmpty()) {
+    private void sort() {
+        if (!indexMap.isEmpty()) {
             Map<String, List<PageEntry>> sortedMap = new HashMap<>();
-            sortableMap.forEach((key, value) -> sortedMap.put(key, value.stream().sorted().collect(Collectors.toList())));
-            sortableMap.clear();
-            return sortedMap;
+            indexMap.forEach((key, value) -> sortedMap.put(key, value.stream().sorted().collect(Collectors.toList())));
+            indexMap.clear();
+            indexMap = sortedMap;
         }
-        return null;
     }
 
     private List<String> readDirectory(String dirName) {
